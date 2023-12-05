@@ -18,4 +18,9 @@ public class BookRepository implements BookDAO {
     public Optional<BookEntity> findById(Integer bookId) {
         return repository.findById(bookId);
     }
+
+    @Override
+    public void save(BookEntity book) {
+
+    }
 }

@@ -3,6 +3,6 @@ CREATE TABLE book (
         name VARCHAR(255) NOT NULL,
         author VARCHAR(255) NOT NULL,
         quantity INT  NOT NULL,
-        publication_data INT NOT NULL,
+        publication_date INT NOT NULL,
         PRIMARY KEY (id)
     );
