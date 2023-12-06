@@ -8,4 +8,6 @@ public interface BookDAO {
     Optional<BookEntity> findById(Integer bookId);
 
     void save(BookEntity book);
+
+    Optional<BookEntity> findByNameAndPublicationDate(String name, Integer publicationYear);
 }

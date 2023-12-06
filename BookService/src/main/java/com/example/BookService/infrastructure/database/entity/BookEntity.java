@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "book_service")
+@Table(name = "book")
 public class BookEntity {
 
     @Id
@@ -21,10 +21,10 @@ public class BookEntity {
     @Column(name = "name")
     private String name;
     @Column(name = "author")
-    private String contents;
+    private String author;
     @Column(name = "quantity")
     private Integer quantity;
-    @Column(name = "publication_data")
-    private Integer publication_data;
+    @Column(name = "publication_date")
+    private Integer publicationDate;
 
 }

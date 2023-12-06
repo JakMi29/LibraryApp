@@ -21,6 +21,11 @@ public class BookRepository implements BookDAO {
 
     @Override
     public void save(BookEntity book) {
+        repository.save(book);
+    }
 
+    @Override
+    public Optional<BookEntity> findByNameAndPublicationDate(String name, Integer publicationYear) {
+        return repository.findByNameAndPublicationDate(name, publicationYear);
     }
 }
