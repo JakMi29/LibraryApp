@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/book_service
@@ -13,14 +15,18 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: BOOK-SERVICE
+  config:
+    import: configserver:http://localhost:9296
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
 
 
