@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/rental_service
+    url: jdbc:postgresql://localhost:5432/book_service
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
