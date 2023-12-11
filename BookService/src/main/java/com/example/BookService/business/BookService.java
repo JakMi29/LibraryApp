@@ -31,7 +31,7 @@ public class BookService {
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");
     }
-    public void borrowBook(BorrowReturnBookRequest request) {
+    public void lendBook(BorrowReturnBookRequest request) {
         BookEntity book
                 = bookDAO.findByNameAndPublicationDate(request.getName(),request.getPublicationYear())
                 .orElseThrow(() -> new BookServiceCustomException(

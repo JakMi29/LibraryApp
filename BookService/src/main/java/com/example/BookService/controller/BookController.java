@@ -3,24 +3,24 @@ package com.example.BookService.controller;
 import com.example.BookService.business.BookService;
 import com.example.BookService.domain.request.AddBookRequest;
 import com.example.BookService.domain.request.BorrowReturnBookRequest;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
 @RestController
 @RequestMapping("/book")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class BookController {
 
     private final BookService bookService;
 
     @PutMapping("/borrow")
-    public ResponseEntity<Void> borrowBook(
+    public ResponseEntity<Void> lendBook(
             @RequestBody BorrowReturnBookRequest request
             ) {
-        bookService.borrowBook(request);
+        bookService.lendBook(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("/return")
