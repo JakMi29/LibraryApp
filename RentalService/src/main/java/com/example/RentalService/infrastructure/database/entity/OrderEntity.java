@@ -24,15 +24,12 @@ public class OrderEntity {
     private Integer orderId;
 
     @Column(name = "book_id")
-    private Integer productId;
+    private Integer bookId;
 
     @Column(name = "received_date")
-    private OffsetDateTime orderDate;
+    private OffsetDateTime receivedDate;
 
-    @Column(name = "status")
-    private String orderStatus;
-
-    @Column(name="order_number")
-    private String orderNumber;
+    @Column(name = "return_date")
+    private OffsetDateTime returnDate;
 
 }
