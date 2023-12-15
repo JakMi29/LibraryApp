@@ -17,11 +17,11 @@ import java.util.Optional;
 public class BookService {
     private final BookDAO bookDAO;
 
-    public void returnBook(BorrowReturnBookRequest request) {
+    public void returnBook(Integer id) {
         BookEntity book
-                = bookDAO.findByNameAndPublicationDate(request.getName(),request.getPublicationYear())
+                = bookDAO.findById(id)
                 .orElseThrow(() -> new BookServiceCustomException(
-                        "Book with given Name not found",
+                        "Book with given id not found",
                         "PRODUCT_NOT_FOUND"
                 ));
 
@@ -31,9 +31,9 @@ public class BookService {
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");
     }
-    public void lendBook(BorrowReturnBookRequest request) {
+    public Integer lendBook(Integer id) {
         BookEntity book
-                = bookDAO.findByNameAndPublicationDate(request.getName(),request.getPublicationYear())
+                = bookDAO.findById(id)
                 .orElseThrow(() -> new BookServiceCustomException(
                         "Book with given Name not found",
                         "PRODUCT_NOT_FOUND"
@@ -48,6 +48,7 @@ public class BookService {
         book.setQuantity(book.getQuantity() - 1);
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");
+        return book.getId();
     }
 
     public void addBook(AddBookRequest request) {

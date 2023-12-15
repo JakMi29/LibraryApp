@@ -16,18 +16,14 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PutMapping("/borrow")
-    public ResponseEntity<Void> lendBook(
-            @RequestBody BorrowReturnBookRequest request
-            ) {
-        bookService.lendBook(request);
+    @PutMapping("/borrow/{id}")
+    public ResponseEntity<Void> lendBook(@PathVariable("id") Integer id) {
+        bookService.lendBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping("/return")
-    public ResponseEntity<Void> returnBook(
-            @RequestBody BorrowReturnBookRequest request
-    ) {
-        bookService.returnBook(request);
+    @PutMapping("/return/{id}")
+    public ResponseEntity<Void> returnBook(@PathVariable("id") Integer id) {
+        bookService.returnBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/addBook")

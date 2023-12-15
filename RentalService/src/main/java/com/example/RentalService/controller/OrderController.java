@@ -14,14 +14,14 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/placeOrder")
-    public ResponseEntity<Void> placeOrder(@RequestBody BorrowReturnBookRequest Request) {
-        orderService.placeOrder(Request);
+    @PostMapping("/placeOrder/{bookId}")
+    public ResponseEntity<Void> placeOrder(@PathVariable("bookId") Integer bookId) {
+        orderService.placeOrder(bookId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping("/returnOrder")
-    public ResponseEntity<Void> returnOrder(@RequestBody BorrowReturnBookRequest Request) {
-        orderService.returnOrder(Request);
+    @PutMapping("/returnOrder/{bookId}")
+    public ResponseEntity<Void> returnOrder(@PathVariable("bookId") Integer bookId) {
+        orderService.returnOrder(bookId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
