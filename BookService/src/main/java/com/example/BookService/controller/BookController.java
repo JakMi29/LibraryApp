@@ -3,11 +3,14 @@ package com.example.BookService.controller;
 import com.example.BookService.business.BookService;
 import com.example.BookService.domain.request.AddBookRequest;
 import com.example.BookService.domain.request.BorrowReturnBookRequest;
+import com.example.BookService.infrastructure.database.entity.BookEntity;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/book")
@@ -20,6 +23,13 @@ public class BookController {
     public ResponseEntity<Void> lendBook(@PathVariable("id") Integer id) {
         bookService.lendBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping(value = "/{pageNumber}/{pageSize}")
+    public ResponseEntity<List<BookEntity>> books(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer pageSize
+    ) {
+        return ResponseEntity.ok(bookService.findAll(pageNumber, pageSize));
     }
     @PutMapping("/return/{id}")
     public ResponseEntity<Void> returnBook(@PathVariable("id") Integer id) {

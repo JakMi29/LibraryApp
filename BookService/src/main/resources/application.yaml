@@ -19,6 +19,7 @@ spring:
     locations: classpath:db/migration
     table: flyway_history_book_service
     baseline: baselineOnMigrate
+    baselineOnMigrate: true
   application:
     name: BOOK-SERVICE
   config:
