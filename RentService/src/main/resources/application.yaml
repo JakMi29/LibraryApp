@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/book_service
@@ -17,13 +17,26 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     locations: classpath:db/migration
-    table: flyway_history_book_service
-    baseline: baselineOnMigrate
+    table: flyway_history_rental_service
     baselineOnMigrate: true
   application:
-    name: BOOK-SERVICE
+    name: RENTAL-SERVICE
   config:
     import: configserver:http://localhost:9296
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      external:
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+
 
 
 
