@@ -28,5 +28,10 @@ public class FallbackController {
     public String rentalServiceFallbackPost() {
         return "Rental Service is down!";
     }
+    @PostMapping("/opinionServiceFallback")
+    public String opinionServiceFallbackPost() {
+        return "Opinion Service is down!";
+    }
+
 
 }

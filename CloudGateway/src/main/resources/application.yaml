@@ -27,3 +27,12 @@ spring:
               args:
                 name: RENTAL-SERVICE
                 fallbackUri: forward:/rentalServiceFallback
+        - id: OPINION-SERVICE
+          uri: lb://OPINION-SERVICE
+          predicates:
+            - Path=/opinion/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: OPINION-SERVICE
+                fallbackUri: forward:/opinionServiceFallback
