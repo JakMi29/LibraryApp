@@ -1,39 +1,38 @@
 package com.example.BookService.infrastructure.database.repository;
 
 import com.example.BookService.business.dao.BookDAO;
-import com.example.BookService.infrastructure.database.entity.BookEntity;
-import com.example.BookService.infrastructure.database.repository.jpa.BookJpaRepository;
+import com.example.BookService.infrastructure.database.entity.LibraryBookEntity;
+import com.example.BookService.infrastructure.database.repository.jpa.LibraryBookJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-public class BookRepository implements BookDAO {
+public class ShopBookRepository implements BookDAO {
 
-    private final BookJpaRepository repository;
+    private final LibraryBookJpaRepository repository;
 
     @Override
-    public Optional<BookEntity> findById(Integer bookId) {
+    public Optional<LibraryBookEntity> findById(Integer bookId) {
         return repository.findById(bookId);
     }
 
     @Override
-    public void save(BookEntity book) {
+    public void save(LibraryBookEntity book) {
         repository.save(book);
     }
 
     @Override
-    public Optional<BookEntity> findByNameAndPublicationDate(String name, Integer publicationYear) {
+    public Optional<LibraryBookEntity> findByNameAndPublicationDate(String name, Integer publicationYear) {
         return repository.findByNameAndPublicationDate(name, publicationYear);
     }
 
     @Override
-    public List<BookEntity> findAll(Pageable pageable) {
+    public List<LibraryBookEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable).stream().toList();
     }
 }

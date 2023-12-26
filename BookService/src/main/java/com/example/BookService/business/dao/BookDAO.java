@@ -1,17 +1,17 @@
 package com.example.BookService.business.dao;
 
-import com.example.BookService.infrastructure.database.entity.BookEntity;
+import com.example.BookService.infrastructure.database.entity.LibraryBookEntity;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookDAO {
-    Optional<BookEntity> findById(Integer bookId);
+    Optional<LibraryBookEntity> findById(Integer bookId);
 
-    void save(BookEntity book);
+    void save(LibraryBookEntity book);
 
-    Optional<BookEntity> findByNameAndPublicationDate(String name, Integer publicationYear);
+    Optional<LibraryBookEntity> findByNameAndPublicationDate(String name, Integer publicationYear);
 
-    List<BookEntity> findAll(Pageable pageable);
+    List<LibraryBookEntity> findAll(Pageable pageable);
 }
