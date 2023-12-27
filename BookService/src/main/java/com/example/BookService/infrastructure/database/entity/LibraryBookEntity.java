@@ -22,6 +22,8 @@ public class LibraryBookEntity {
     private String name;
     @Column(name = "author")
     private String author;
+    @Column(name="category")
+    String category;
     @Column(name = "quantity")
     private Integer quantity;
     @Column(name = "publication_date")

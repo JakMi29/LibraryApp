@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,7 +26,10 @@ public class ShopBookEntity {
     private String author;
     @Column(name = "quantity")
     private Integer quantity;
+    @Column(name="category")
+    String category;
     @Column(name = "publication_date")
     private Integer publicationDate;
-
+    @Column(name="price")
+    BigDecimal price;
 }

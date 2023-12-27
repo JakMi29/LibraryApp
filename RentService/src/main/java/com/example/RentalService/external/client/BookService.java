@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 //@CircuitBreaker(name = "external", fallbackMethod = "fallback")
-@FeignClient(name = "BOOK-SERVICE/book")
+@FeignClient(name = "BOOK-SERVICE/library")
 public interface BookService {
 
-    @PutMapping("/borrow/{id}")
+    @PutMapping("/rent/{id}")
     ResponseEntity<Void> lendBook(
             @PathVariable("id") Integer id
     );

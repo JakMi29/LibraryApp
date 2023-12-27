@@ -3,7 +3,7 @@ package com.example.BookService.domain.exception;
 import lombok.Data;
 
 @Data
-public class BookServiceCustomException extends RuntimeException{
+public class BookServiceCustomException extends RuntimeException {
 
     private String errorCode;
 

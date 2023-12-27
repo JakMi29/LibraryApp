@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.OffsetDateTime;
 
 
@@ -16,11 +15,11 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "orders")
-public class OrderEntity {
+public class RentalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="orderId")
+    @Column(name = "id")
     private Integer orderId;
 
     @Column(name = "book_id")
@@ -32,4 +31,6 @@ public class OrderEntity {
     @Column(name = "return_date")
     private OffsetDateTime returnDate;
 
+    @Column(name = "email")
+    private String email;
 }

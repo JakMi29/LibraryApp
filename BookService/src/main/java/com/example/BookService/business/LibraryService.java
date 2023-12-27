@@ -1,6 +1,6 @@
 package com.example.BookService.business;
 
-import com.example.BookService.business.dao.BookDAO;
+import com.example.BookService.business.dao.LibraryBookDAO;
 import com.example.BookService.domain.exception.BookServiceCustomException;
 import com.example.BookService.domain.request.AddBookRequest;
 import com.example.BookService.infrastructure.database.entity.LibraryBookEntity;
@@ -15,8 +15,8 @@ import java.util.Optional;
 @Log4j2
 @AllArgsConstructor
 public class LibraryService {
-    private final BookDAO bookDAO;
-    private final BookPaginationService bookPaginationService;
+    private final LibraryBookDAO bookDAO;
+    private final LibraryBookPaginationService bookPaginationService;
 
     public void returnBook(Integer id) {
         LibraryBookEntity book
@@ -25,13 +25,11 @@ public class LibraryService {
                         "Book with given id not found",
                         "PRODUCT_NOT_FOUND"
                 ));
-
-
-
         book.setQuantity(book.getQuantity() + 1);
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");
     }
+
     public Integer lendBook(Integer id) {
         LibraryBookEntity book
                 = bookDAO.findById(id)
@@ -74,6 +72,18 @@ public class LibraryService {
     }
 
     public List<LibraryBookEntity> findAll(Integer pageNumber, Integer pageSize) {
-        return bookPaginationService.paginateAll(pageNumber,pageSize);
+        return bookPaginationService.paginateAll(pageNumber, pageSize);
+    }
+
+    public List<LibraryBookEntity> findAllByCategory(Integer pageNumber, Integer pageSize, String category) {
+        return bookPaginationService.paginateAllByCategory(pageNumber, pageSize, category);
+    }
+
+    public List<LibraryBookEntity> findAvailable(Integer pageNumber, Integer pageSize) {
+        return bookPaginationService.paginateAvailable(pageNumber, pageSize);
+    }
+
+    public List<LibraryBookEntity> findAvailableByCategory(Integer pageNumber, Integer pageSize, String category) {
+        return bookPaginationService.paginateAvailableByCategory(pageNumber, pageSize, category);
     }
 }
