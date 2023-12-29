@@ -15,27 +15,39 @@ public class RentalController {
     private final RentalService orderService;
 
     @GetMapping
-    public ResponseEntity<String> getMethod(){
+    public ResponseEntity<String> getMethod() {
         return ResponseEntity.ok("hello");
     }
+
     @PostMapping("/lentBook/{bookId}")
     public ResponseEntity<Void> placeOrder(
             @PathVariable("bookId") Integer bookId,
             @RequestBody String email
     ) {
-        orderService.placeOrder(bookId,email);
+        orderService.placeOrder(bookId, email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping("/rentalInfo/{bookId}")
     public ResponseEntity<RentalInfoResponse> rentalInfo(
             @PathVariable("bookId") Integer bookId,
             @RequestBody String email
     ) {
-        RentalInfoResponse response=orderService.rentalInfo(bookId,email);
+        RentalInfoResponse response = orderService.rentalInfo(bookId, email);
         return ResponseEntity.ok(response);
     }
+
     @PutMapping("/returnBook/{bookId}")
     public ResponseEntity<Void> returnBook(
+            @PathVariable("bookId") Integer bookId,
+            @RequestBody String email
+    ) {
+        orderService.returnOrder(bookId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/returnBook/{bookId}")
+    public ResponseEntity<Void> returnBookWithPayment(
             @PathVariable("bookId") Integer bookId,
             @RequestBody String email
     ) {

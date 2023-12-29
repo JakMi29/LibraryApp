@@ -14,13 +14,13 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "orders")
+@Table(name = "rentals")
 public class RentalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer orderId;
+    private Integer rentalId;
 
     @Column(name = "book_id")
     private Integer bookId;
