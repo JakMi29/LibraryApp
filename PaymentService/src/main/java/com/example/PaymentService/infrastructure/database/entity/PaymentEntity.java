@@ -1,21 +1,22 @@
 package com.example.PaymentService.infrastructure.database.entity;
 
+import com.example.PaymentService.domain.PaymentMode;
+import com.example.PaymentService.domain.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "payment")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Table(name = "payment")
 public class PaymentEntity {
 
     @Id
@@ -26,14 +27,14 @@ public class PaymentEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "rental_id")
-    private Integer rentalId;
+    @Column(name = "reference_id")
+    private Integer referenceId;
 
-    @Column(name = "order_id")
-    private Integer orderId;
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
 
-    @Column(name = "mode")
-    private String paymentMode;
+    @Enumerated(EnumType.STRING)
+    private PaymentMode paymentMode;
 
     @Column(name = "payment_date")
     private OffsetDateTime paymentDate;
@@ -41,3 +42,5 @@ public class PaymentEntity {
     @Column(name = "amount")
     private BigDecimal amount;
 }
+
+

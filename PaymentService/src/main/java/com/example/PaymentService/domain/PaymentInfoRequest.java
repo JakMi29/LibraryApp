@@ -5,18 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentRequest {
+public class PaymentInfoRequest {
 
-    private String email;
-    private String transactionType;
     private Integer referenceId;
-    private String paymentMode;
-    private BigDecimal amount;
+    private String transactionType;
 
 }
