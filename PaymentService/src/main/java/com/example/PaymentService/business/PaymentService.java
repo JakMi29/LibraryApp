@@ -32,11 +32,10 @@ public class PaymentService {
                 TransactionType.valueOf(request.getTransactionType())
                 ,request.getReferenceId()
         );
-        PaymentInfoResponse payments= PaymentInfoResponse.builder()
-                .paymentMode(payment.getPaymentMode().toString())
-                .amount(payment.getAmount().toString())
-                .time(payment.getPaymentDate())
-                .build();
-        return payments;
+    return PaymentInfoResponse.builder()
+            .paymentMode(payment.getPaymentMode().toString())
+            .amount(payment.getAmount().toString())
+            .time(payment.getPaymentDate())
+            .build();
     }
 }

@@ -10,14 +10,12 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class RentalInfoResponse {
     private Integer bookId;
     private OffsetDateTime receivedDate;
     private OffsetDateTime returnDate;
     private String email;
-    private Long loanPeriod;
+    private Integer loanPeriod;
     private BigDecimal fee;
 }

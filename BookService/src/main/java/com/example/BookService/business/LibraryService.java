@@ -86,4 +86,9 @@ public class LibraryService {
     public List<LibraryBookEntity> findAvailableByCategory(Integer pageNumber, Integer pageSize, String category) {
         return bookPaginationService.paginateAvailableByCategory(pageNumber, pageSize, category);
     }
+
+    public LibraryBookEntity findBook(Integer id) {
+        return bookDAO.findById(id).orElseThrow(
+                ()->new BookServiceCustomException("Can not find book with this id","BAD REQUEST"));
+    }
 }

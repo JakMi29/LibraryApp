@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 
@@ -14,7 +15,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rentals")
+@Table(name = "rental")
 public class RentalEntity {
 
     @Id
@@ -30,6 +31,12 @@ public class RentalEntity {
 
     @Column(name = "return_date")
     private OffsetDateTime returnDate;
+
+    @Column(name="rental_period")
+    private Integer rentalPeriod;
+
+    @Column(name="fee")
+    private BigDecimal fee;
 
     @Column(name = "email")
     private String email;
