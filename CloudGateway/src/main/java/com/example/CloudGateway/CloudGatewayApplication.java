@@ -18,10 +18,6 @@ public class CloudGatewayApplication {
 		SpringApplication.run(CloudGatewayApplication.class, args);
 	}
 
-	@Bean
-	KeyResolver userKeySolver(){
-		return exchange -> Mono.just("userKey");
-	}
 
 	@Bean
 	public Customizer<Resilience4JCircuitBreakerFactory> defaultCustomizer() {

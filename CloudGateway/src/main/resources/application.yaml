@@ -12,7 +12,7 @@ spring:
         - id: BOOK-SERVICE
           uri: lb://BOOK-SERVICE
           predicates:
-            - Path=/book/**
+            - Path=/library/**
           filters:
             - name: CircuitBreaker
               args:
@@ -21,7 +21,7 @@ spring:
         - id: RENTAL-SERVICE
           uri: lb://RENTAL-SERVICE
           predicates:
-            - Path=/order/**
+            - Path=/rental/**
           filters:
             - name: CircuitBreaker
               args:

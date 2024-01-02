@@ -20,7 +20,7 @@ spring:
     table: flyway_history_rental_service
     baselineOnMigrate: true
   application:
-    name: RENT-SERVICE
+    name: RENTAL-SERVICE
   config:
     import: configserver:http://localhost:9296
 

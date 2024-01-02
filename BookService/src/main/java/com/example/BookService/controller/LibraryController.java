@@ -29,7 +29,7 @@ public class LibraryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "allBooks/{pageNumber}/{pageSize}")
+    @GetMapping("allBooks/{pageNumber}/{pageSize}")
     public ResponseEntity<List<LibraryBookEntity>> allBooks(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize
@@ -37,17 +37,17 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findAll(pageNumber, pageSize));
     }
 
-    @GetMapping(value = "allBooksByCategory/{pageNumber}/{pageSize}")
+    @GetMapping("allBooksByCategory/{pageNumber}/{pageSize}")
     public ResponseEntity<List<LibraryBookEntity>> allBooksByCategory(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
-            @RequestBody String category
+            @RequestParam String category
     ) {
         System.out.println(category);
         return ResponseEntity.ok(libraryService.findAllByCategory(pageNumber, pageSize, category));
     }
 
-    @GetMapping(value = "availableBooks/{pageNumber}/{pageSize}")
+    @GetMapping("availableBooks/{pageNumber}/{pageSize}")
     public ResponseEntity<List<LibraryBookEntity>> availableBooks(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize
@@ -55,11 +55,11 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findAvailable(pageNumber, pageSize));
     }
 
-    @GetMapping(value = "availableBooksByCategory/{pageNumber}/{pageSize}")
+    @GetMapping("availableBooksByCategory/{pageNumber}/{pageSize}")
     public ResponseEntity<List<LibraryBookEntity>> availableBooksByCategory(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
-            @RequestBody String category
+            @RequestParam String category
     ) {
         return ResponseEntity.ok(libraryService.findAvailableByCategory(pageNumber, pageSize, category));
     }
@@ -71,4 +71,11 @@ public class LibraryController {
         libraryService.addBook(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<LibraryBookEntity> getBook(
+            @PathVariable Integer id
+    ){
+        return ResponseEntity.ok(libraryService.findBook(id));
+    }
+
 }

@@ -6,13 +6,12 @@ import com.example.RentalService.domain.FinishedRentalsResponse;
 import com.example.RentalService.domain.ReturnBookPaymentRequest;
 import com.example.RentalService.external.client.BookService;
 import com.example.RentalService.external.client.PaymentService;
-import com.example.RentalService.external.request.PaymentInfoRequest;
 import com.example.RentalService.external.request.PaymentRequest;
+import com.example.RentalService.external.response.LibraryBookEntity;
 import com.example.RentalService.external.response.PaymentInfoResponse;
 import com.example.RentalService.external.response.RentalInfoResponse;
 import com.example.RentalService.infrastructure.database.entity.RentalEntity;
 import lombok.AllArgsConstructor;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,20 +114,18 @@ public class RentalService {
     }
 
     private FinishedRentalsResponse buildFinishRentalsResponse(RentalEntity rental) {
+        LibraryBookEntity book = bookService.getBook(rental.getBookId()).getBody();
         FinishedRentalsResponse response = FinishedRentalsResponse.builder()
-                .bookName("dupa")
                 .email(rental.getEmail())
                 .fee(rental.getFee())
                 .receivedDate(rental.getReceivedDate())
                 .rentalPeriod(rental.getRentalPeriod())
                 .returnDate(rental.getReturnDate())
+                .bookName(book.getName())
                 .build();
         if (rental.getFee().compareTo(BigDecimal.ZERO) != 0) {
-            PaymentInfoRequest paymentInfoRequest = PaymentInfoRequest.builder()
-                    .referenceId(rental.getRentalId())
-                    .transactionType("RENTAL")
-                    .build();
-            PaymentInfoResponse paymentInfoResponse = paymentService.getPaymentInfo(rental.getRentalId(),"RENTAL").getBody();
+            PaymentInfoResponse paymentInfoResponse = paymentService
+                    .getPaymentInfo(rental.getRentalId(), "RENTAL").getBody();
 
             response.setPaymentMode(paymentInfoResponse.getPaymentMode());
         }
