@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class PaymentRequest {
 
     private String email;
-    private String transactionType;
     private Integer referenceId;
     private String paymentMode;
     private BigDecimal amount;

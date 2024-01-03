@@ -13,5 +13,6 @@ public class AddBookRequest {
     private String name;
     private String Author;
     private Integer quantity;
+    private String category;
     private Integer publicationYear;
 }

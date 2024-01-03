@@ -1,19 +1,17 @@
-package com.example.BookService.domain.exception;
+package com.example.RentalService.controller;
 
-
-import lombok.extern.log4j.Log4j2;
+import com.example.RentalService.domain.RentalServiceCustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Log4j2
 @ControllerAdvice
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class RentalServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BookServiceCustomException.class)
-    public ResponseEntity<String> handleCustomException(BookServiceCustomException exception) {
+    @ExceptionHandler(RentalServiceCustomException.class)
+    public ResponseEntity<String> handleCustomException(RentalServiceCustomException exception) {
         return new ResponseEntity<>(
                 exception.getMessage(),
                 exception.getStatus());
@@ -21,7 +19,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleOtherException(Exception exception) {
-        log.error(exception.getMessage());
+        System.out.println(exception.getMessage());
         return new ResponseEntity<>(
                 "Something gone wrong",
                 HttpStatus.INTERNAL_SERVER_ERROR);

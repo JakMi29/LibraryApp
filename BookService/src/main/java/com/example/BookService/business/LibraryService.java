@@ -6,6 +6,7 @@ import com.example.BookService.domain.request.AddBookRequest;
 import com.example.BookService.infrastructure.database.entity.LibraryBookEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,31 +24,30 @@ public class LibraryService {
                 = bookDAO.findById(id)
                 .orElseThrow(() -> new BookServiceCustomException(
                         "Book with given id not found",
-                        "PRODUCT_NOT_FOUND"
+                        HttpStatus.BAD_REQUEST
                 ));
         book.setQuantity(book.getQuantity() + 1);
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");
     }
 
-    public Integer lendBook(Integer id) {
+    public void lendBook(Integer id) {
         LibraryBookEntity book
                 = bookDAO.findById(id)
                 .orElseThrow(() -> new BookServiceCustomException(
                         "Book with given Name not found",
-                        "PRODUCT_NOT_FOUND"
+                        HttpStatus.BAD_REQUEST
                 ));
         if (book.getQuantity() <= 0) {
             throw new BookServiceCustomException(
                     "Book does not have sufficient Quantity",
-                    "INSUFFICIENT_QUANTITY"
+                    HttpStatus.BAD_REQUEST
             );
         }
 
         book.setQuantity(book.getQuantity() - 1);
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");
-        return book.getId();
     }
 
     public void addBook(AddBookRequest request) {
@@ -59,11 +59,12 @@ public class LibraryService {
             s.setQuantity(s.getQuantity() + request.getQuantity());
             return s;
         }).orElseGet(() -> {
-            log.info("The new book has been successfully added");
+            log.info("The new book added successfully");
             return LibraryBookEntity.builder()
                     .name(request.getName())
                     .author(request.getAuthor())
                     .quantity(request.getQuantity())
+                    .category(request.getCategory())
                     .publicationDate(request.getPublicationYear())
                     .build();
         });
@@ -89,6 +90,8 @@ public class LibraryService {
 
     public LibraryBookEntity findBook(Integer id) {
         return bookDAO.findById(id).orElseThrow(
-                ()->new BookServiceCustomException("Can not find book with this id","BAD REQUEST"));
+                () -> new BookServiceCustomException(
+                        "Can not find book with this id",
+                        HttpStatus.BAD_REQUEST));
     }
 }

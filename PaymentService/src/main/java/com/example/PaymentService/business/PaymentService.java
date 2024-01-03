@@ -14,11 +14,11 @@ import java.time.OffsetDateTime;
 public class PaymentService {
 
     private final PaymentDAO paymentDAO;
+
     @Transactional
     public void doPayment(PaymentRequest paymentRequest) {
-        PaymentEntity payment=PaymentEntity.builder()
+        PaymentEntity payment = PaymentEntity.builder()
                 .paymentMode(PaymentMode.valueOf(paymentRequest.getPaymentMode()))
-                .transactionType(TransactionType.valueOf(paymentRequest.getTransactionType()))
                 .amount(paymentRequest.getAmount())
                 .paymentDate(OffsetDateTime.now())
                 .referenceId(paymentRequest.getReferenceId())
@@ -26,16 +26,14 @@ public class PaymentService {
                 .build();
         paymentDAO.savePayment(payment);
     }
-@Transactional
-    public PaymentInfoResponse getPaymentInfo(PaymentInfoRequest request) {
-        PaymentEntity payment=paymentDAO.getPayment(
-                TransactionType.valueOf(request.getTransactionType())
-                ,request.getReferenceId()
-        );
-    return PaymentInfoResponse.builder()
-            .paymentMode(payment.getPaymentMode().toString())
-            .amount(payment.getAmount().toString())
-            .time(payment.getPaymentDate())
-            .build();
+
+    @Transactional
+    public PaymentInfoResponse getPaymentInfo(Integer referenceId) {
+        PaymentEntity payment = paymentDAO.getPayment(referenceId);
+        return PaymentInfoResponse.builder()
+                .paymentMode(payment.getPaymentMode().toString())
+                .amount(payment.getAmount().toString())
+                .time(payment.getPaymentDate())
+                .build();
     }
 }

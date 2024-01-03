@@ -1,7 +1,6 @@
 package com.example.PaymentService.controller;
 
 import com.example.PaymentService.business.PaymentService;
-import com.example.PaymentService.domain.PaymentInfoRequest;
 import com.example.PaymentService.domain.PaymentInfoResponse;
 import com.example.PaymentService.domain.PaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +22,7 @@ public class PaymentController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<PaymentInfoResponse> getPaymentInfo(
-            @RequestParam Integer referenceId,
-            @RequestParam String transactionType) {
-        PaymentInfoRequest paymentInfoRequest=PaymentInfoRequest.builder()
-                .referenceId(referenceId)
-                .transactionType(transactionType)
-                .build();
-        return ResponseEntity.ok(paymentService.getPaymentInfo(paymentInfoRequest));
+    public ResponseEntity<PaymentInfoResponse> getPaymentInfo(@RequestParam Integer referenceId) {
+        return ResponseEntity.ok(paymentService.getPaymentInfo(referenceId));
     }
 }

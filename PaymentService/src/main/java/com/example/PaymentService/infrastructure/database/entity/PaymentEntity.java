@@ -1,7 +1,6 @@
 package com.example.PaymentService.infrastructure.database.entity;
 
 import com.example.PaymentService.domain.PaymentMode;
-import com.example.PaymentService.domain.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +28,6 @@ public class PaymentEntity {
 
     @Column(name = "reference_id")
     private Integer referenceId;
-
-    @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
 
     @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;

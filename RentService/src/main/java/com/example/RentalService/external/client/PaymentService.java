@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PaymentService {
 
     @PostMapping
-    ResponseEntity<Void> doPayment(@RequestBody PaymentRequest paymentRequest);
+    void doPayment(@RequestBody PaymentRequest paymentRequest);
 
     @GetMapping("/info")
-    ResponseEntity<PaymentInfoResponse> getPaymentInfo(
-            @RequestParam Integer referenceId,
-            @RequestParam String transactionType);
+    ResponseEntity<PaymentInfoResponse> getPaymentInfo(@RequestParam Integer referenceId);
 
 }

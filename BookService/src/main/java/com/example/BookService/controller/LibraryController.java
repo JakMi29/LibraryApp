@@ -14,19 +14,13 @@ import java.util.List;
 @RequestMapping("/library")
 @AllArgsConstructor
 public class LibraryController {
-
     private final LibraryService libraryService;
 
-    @PutMapping("/rent/{id}")
-    public ResponseEntity<Void> lendBook(@PathVariable("id") Integer id) {
-        libraryService.lendBook(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PutMapping("/return/{id}")
-    public ResponseEntity<Void> returnBook(@PathVariable("id") Integer id) {
-        libraryService.returnBook(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<LibraryBookEntity> getBook(
+            @PathVariable Integer id
+    ) {
+        return ResponseEntity.ok(libraryService.findBook(id));
     }
 
     @GetMapping("allBooks/{pageNumber}/{pageSize}")
@@ -64,18 +58,28 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findAvailableByCategory(pageNumber, pageSize, category));
     }
 
+    @PutMapping("/rent/{id}")
+    public ResponseEntity<Void> lendBook(
+            @PathVariable("id") Integer id
+    ) {
+        libraryService.lendBook(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/return/{id}")
+    public ResponseEntity<Void> returnBook(
+            @PathVariable("id") Integer id
+    ) {
+        libraryService.returnBook(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/addBook")
     public ResponseEntity<Void> AddBook(
             @RequestBody AddBookRequest request
     ) {
         libraryService.addBook(request);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<LibraryBookEntity> getBook(
-            @PathVariable Integer id
-    ){
-        return ResponseEntity.ok(libraryService.findBook(id));
     }
 
 }

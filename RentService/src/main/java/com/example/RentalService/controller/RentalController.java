@@ -20,15 +20,6 @@ public class RentalController {
     private final RentalService orderService;
 
 
-    @PostMapping("/lentBook/{bookId}")
-    public ResponseEntity<Void> lentBook(
-            @PathVariable("bookId") Integer bookId,
-            @RequestBody String email
-    ) {
-        orderService.lentBook(bookId, email);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @GetMapping("/rentalInfo/{bookId}")
     public ResponseEntity<RentalInfoResponse> rentalInfo(
             @PathVariable("bookId") Integer bookId,
@@ -36,24 +27,6 @@ public class RentalController {
     ) {
         RentalInfoResponse response = orderService.rentalInfo(bookId, email);
         return ResponseEntity.ok(response);
-    }
-
-    @PutMapping("/returnBook/{bookId}")
-    public ResponseEntity<Void> returnBook(
-            @PathVariable("bookId") Integer bookId,
-            @RequestBody String email
-    ) {
-        orderService.returnBook(bookId, email);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/returnBook/{bookId}")
-    public ResponseEntity<Void> returnBookWithPayment(
-            @PathVariable("bookId") Integer bookId,
-            @RequestBody ReturnBookPaymentRequest request
-    ) {
-        orderService.returnBookWithPayment(bookId, request);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/activeRentals/{pageNumber}/{pageSize}")
@@ -74,4 +47,31 @@ public class RentalController {
         return ResponseEntity.ok(orderService.getFinishedRentals(email, pageNumber, pageSize));
     }
 
+    @PutMapping("/returnBook/{bookId}")
+    public ResponseEntity<Void> returnBook(
+            @PathVariable("bookId") Integer bookId,
+            @RequestBody String email
+    ) {
+        orderService.returnBook(bookId, email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PostMapping("/returnBook/{bookId}")
+    public ResponseEntity<Void> returnBookWithPayment(
+            @PathVariable("bookId") Integer bookId,
+            @RequestBody ReturnBookPaymentRequest request
+    ) {
+        orderService.returnBookWithPayment(bookId, request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/lentBook/{bookId}")
+    public ResponseEntity<Void> lentBook(
+            @PathVariable("bookId") Integer bookId,
+            @RequestBody String email
+    ) {
+        orderService.lentBook(bookId, email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

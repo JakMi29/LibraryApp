@@ -1,8 +1,8 @@
 package com.example.RentalService.business;
 
 import com.example.RentalService.business.dao.RentalDAO;
-import com.example.RentalService.domain.CustomException;
 import com.example.RentalService.domain.FinishedRentalsResponse;
+import com.example.RentalService.domain.RentalServiceCustomException;
 import com.example.RentalService.domain.ReturnBookPaymentRequest;
 import com.example.RentalService.external.client.BookService;
 import com.example.RentalService.external.client.PaymentService;
@@ -12,6 +12,7 @@ import com.example.RentalService.external.response.PaymentInfoResponse;
 import com.example.RentalService.external.response.RentalInfoResponse;
 import com.example.RentalService.infrastructure.database.entity.RentalEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +27,16 @@ public class RentalService {
     private final BookService bookService;
     private final PaymentService paymentService;
     private final RentalDAO rentalDAO;
-
     private final RentalPaginationService rentalPaginationService;
 
     @Transactional
     public void lentBook(Integer id, String email) {
         Optional<RentalEntity> opt = rentalDAO.findActiveByBookIdAndEmail(id, email);
         if (opt.isPresent())
-            throw new CustomException("You have already borrowed this book", "BAD REQUEST", 400);
+            throw new RentalServiceCustomException(
+                    "You have already borrowed this book",
+                    HttpStatus.BAD_REQUEST
+            );
 
         bookService.lendBook(id);
         RentalEntity order = RentalEntity.builder()
@@ -49,13 +52,14 @@ public class RentalService {
     @Transactional
     public void returnBook(Integer id, String email) {
         RentalEntity rental = rentalDAO.findActiveByBookIdAndEmail(id, email)
-                .orElseThrow(() -> new CustomException("You didn't borrow this book", "Bad request", 400));
+                .orElseThrow(() -> new RentalServiceCustomException(
+                        "You didn't borrow this book",
+                        HttpStatus.BAD_REQUEST));
 
         if (rental.getFee().compareTo(BigDecimal.ZERO) != 0)
-            throw new CustomException(
+            throw new RentalServiceCustomException(
                     "You must pay for the book, select the option return the book with payment",
-                    "Bad request",
-                    400
+                    HttpStatus.BAD_REQUEST
             );
         bookService.returnBook(id);
         rental.setReturnDate(OffsetDateTime.now());
@@ -65,7 +69,9 @@ public class RentalService {
     @Transactional
     public void returnBookWithPayment(Integer id, ReturnBookPaymentRequest request) {
         RentalEntity rental = rentalDAO.findActiveByBookIdAndEmail(id, request.getEmail())
-                .orElseThrow(() -> new CustomException("You didn't borrow this book", "Bad request", 400));
+                .orElseThrow(() -> new RentalServiceCustomException(
+                        "You didn't borrow this book",
+                        HttpStatus.BAD_REQUEST));
 
         PaymentRequest paymentRequest = buildPaymentRequest(id, request, rental);
         paymentService.doPayment(paymentRequest);
@@ -76,6 +82,7 @@ public class RentalService {
         rentalDAO.save(rental);
     }
 
+    @Transactional
     private PaymentRequest buildPaymentRequest(Integer id, ReturnBookPaymentRequest request, RentalEntity rental) {
         return PaymentRequest.builder()
                 .transactionType("RENTAL")
@@ -89,7 +96,9 @@ public class RentalService {
     @Transactional
     public RentalInfoResponse rentalInfo(Integer bookId, String email) {
         RentalEntity order = rentalDAO.findActiveByBookIdAndEmail(bookId, email)
-                .orElseThrow(() -> new CustomException("You didn't borrow this book", "BAD REQUEST", 400));
+                .orElseThrow(() -> new RentalServiceCustomException(
+                        "You didn't borrow this book",
+                        HttpStatus.BAD_REQUEST));
         return buildRentalInfoResponse(order);
     }
 
@@ -104,28 +113,31 @@ public class RentalService {
                 .build();
     }
 
+    @Transactional
     public List<RentalEntity> getActiveRentals(String email, Integer pageNumber, Integer pageSize) {
         return rentalPaginationService.getActiveRentals(email, pageNumber, pageSize);
     }
 
+    @Transactional
     public List<FinishedRentalsResponse> getFinishedRentals(String email, Integer pageNumber, Integer pageSize) {
         List<RentalEntity> rentals = rentalPaginationService.getFinishedRentals(email, pageNumber, pageSize);
         return rentals.stream().map(this::buildFinishRentalsResponse).toList();
     }
 
+    @Transactional
     private FinishedRentalsResponse buildFinishRentalsResponse(RentalEntity rental) {
         LibraryBookEntity book = bookService.getBook(rental.getBookId()).getBody();
         FinishedRentalsResponse response = FinishedRentalsResponse.builder()
-                .email(rental.getEmail())
                 .fee(rental.getFee())
+                .email(rental.getEmail())
+                .bookName(book.getName())
+                .returnDate(rental.getReturnDate())
                 .receivedDate(rental.getReceivedDate())
                 .rentalPeriod(rental.getRentalPeriod())
-                .returnDate(rental.getReturnDate())
-                .bookName(book.getName())
                 .build();
         if (rental.getFee().compareTo(BigDecimal.ZERO) != 0) {
             PaymentInfoResponse paymentInfoResponse = paymentService
-                    .getPaymentInfo(rental.getRentalId(), "RENTAL").getBody();
+                    .getPaymentInfo(rental.getRentalId()).getBody();
 
             response.setPaymentMode(paymentInfoResponse.getPaymentMode());
         }

@@ -16,6 +16,7 @@ public class RentalUpdateService {
     private final BigDecimal DAY_FEE = BigDecimal.valueOf(0.50);
     private final int FREE_RENTAL_PERIOD = 14;
     private final RentalDAO rentalDAO;
+
     @Transactional
     @Scheduled(cron = "0 18 18 * * ?")
     void updateRental() {
@@ -30,7 +31,7 @@ public class RentalUpdateService {
         int rentalPeriod = entity.getRentalPeriod() + 1;
         entity.setRentalPeriod(rentalPeriod);
         entity.setFee(
-                rentalPeriod>14?BigDecimal.valueOf(rentalPeriod-FREE_RENTAL_PERIOD).multiply(DAY_FEE):BigDecimal.ZERO
+                rentalPeriod > 14 ? BigDecimal.valueOf(rentalPeriod - FREE_RENTAL_PERIOD).multiply(DAY_FEE) : BigDecimal.ZERO
         );
         return entity;
     }
