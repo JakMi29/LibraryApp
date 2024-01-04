@@ -1,0 +1,21 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: KAFKA-SERVICE
+  config:
+    import: configserver:http://localhost:9296
+  kafka:
+    bootstrap-servers: localhost:9092
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: LibraryApp1267@gmail.com
+    password: nofb tsbv rpfy hrso
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
