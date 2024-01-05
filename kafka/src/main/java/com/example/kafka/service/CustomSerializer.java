@@ -1,4 +1,4 @@
-package com.example.kafka;
+package com.example.kafka.service;
 
 import com.example.kafka.controller.EmailController;
 import com.example.kafka.domain.EmailMessage;

@@ -36,3 +36,12 @@ spring:
               args:
                 name: OPINION-SERVICE
                 fallbackUri: forward:/opinionServiceFallback
+        - id: KAFKA-SERVICE
+          uri: lb://KAFKA-SERVICE
+          predicates:
+            - Path=/emailSender/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: KAFKA-SERVICE
+                fallbackUri: forward:/kafkaServiceFallback

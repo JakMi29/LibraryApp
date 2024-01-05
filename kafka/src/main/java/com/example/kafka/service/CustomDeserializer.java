@@ -1,4 +1,4 @@
-package com.example.kafka;
+package com.example.kafka.service;
 
 import com.example.kafka.domain.EmailMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
