@@ -28,4 +28,9 @@ public class OpinionRepository implements OpinionDAO {
     public List<OpinionEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable).stream().toList();
     }
+
+    @Override
+    public List<OpinionEntity> findByBook(Integer bookId, Pageable pageable) {
+        return repository.findAByBookId(bookId,pageable);
+    }
 }

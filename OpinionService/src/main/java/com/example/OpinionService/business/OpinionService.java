@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OpinionService {
     private final OpinionDAO OpinionDAO;
+    private final OpinionPaginationService opinionPaginationService;
 
     public void addOpinion(AddOpinionRequest request) {
         OpinionEntity opinion = OpinionEntity.builder()
@@ -22,5 +23,9 @@ public class OpinionService {
                 .text(request.getComment())
                 .build();
         OpinionDAO.save(opinion);
+    }
+
+    public List<OpinionEntity> findOpinionByBook(Integer bookId, Integer pageNumber, Integer pageSize) {
+return opinionPaginationService.paginateByBookId(bookId,pageNumber,pageSize);
     }
 }

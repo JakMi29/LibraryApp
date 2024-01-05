@@ -12,4 +12,5 @@ public interface OpinionDAO {
 
 
     List<OpinionEntity> findAll(Pageable pageable);
+    List<OpinionEntity> findByBook(Integer bookId, Pageable pageable);
 }
