@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8085
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/book_service
@@ -17,7 +17,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     locations: classpath:db/migration
-    table: flyway_history_rental_service
+    table: flyway_history_availability_notify_service
+    baseline: baselineOnMigrate
     baselineOnMigrate: true
   application:
     name: AVAILABILITY-NOTIFY-SERVICE

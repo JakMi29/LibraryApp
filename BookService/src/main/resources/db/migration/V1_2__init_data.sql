@@ -18,5 +18,7 @@ VALUES
     ('The Catcher in the Rye', 'J.D. Salinger', 9, 1951, 'Coming-of-Age'),
     ('Brave New World', 'Aldous Huxley', 6, 1932, 'Dystopian'),
     ('The Hobbit', 'J.R.R. Tolkien', 2, 1937, 'Fantasy'),
-    ('The Da Vinci Code', 'Dan Brown', 5, 2003, 'Mystery');
+    ('The Da Vinci Code', 'Dan Brown', 5, 2003, 'Mystery'),
+    ('The Hunger Games', 'Suzanne Collins', 0, 2008, 'Science Fiction'),
+    ('The Hitchhiker''s Guide to the Galaxy', 'Douglas Adams', 0, 1979, 'Science Fiction');
 

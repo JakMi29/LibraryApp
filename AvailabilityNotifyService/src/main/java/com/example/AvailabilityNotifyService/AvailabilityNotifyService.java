@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class AvailabilityNotifyService {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RentalServiceApplication.class, args);
+		SpringApplication.run(AvailabilityNotifyService.class, args);
 	}
 
 }
