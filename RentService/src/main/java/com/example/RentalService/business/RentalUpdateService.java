@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,10 @@ public class RentalUpdateService {
         List<RentalEntity> rentalsToSave = rentalsToUpdate.stream().map((this::update)).toList();
 
         rentalDAO.saveAll(rentalsToSave);
+
+        var list = rentalsToSave.stream().filter(t -> t.getRentalPeriod() > 14).toList();
+        kafka.sendEmail(sendNotification(list));
+
     }
 
     private RentalEntity update(RentalEntity entity) {
@@ -41,21 +46,20 @@ public class RentalUpdateService {
         entity.setFee(
                 rentalPeriod > 14 ? BigDecimal.valueOf(rentalPeriod - FREE_RENTAL_PERIOD).multiply(DAY_FEE) : BigDecimal.ZERO
         );
-
-        if (rentalPeriod > 14)
-            sendNotification(entity);
-
         return entity;
     }
 
-    private void sendNotification(RentalEntity entity) {
-        LibraryBookEntity bookEntity = bookService.getBook(entity.getBookId()).getBody();
-        EmailMessage message = EmailMessage.builder()
-                .content(String.format(CONTENT, bookEntity.getName(), entity.getFee().toString()))
-                .recipient(entity.getEmail())
+    private List<EmailMessage> sendNotification(List<RentalEntity> entities) {
+        return entities.stream().map(this::getEmailMessage).collect(Collectors.toList());
+    }
+
+    private EmailMessage getEmailMessage(RentalEntity entities) {
+        LibraryBookEntity bookEntity = bookService.getBook(entities.getBookId()).getBody();
+        return EmailMessage.builder()
+                .content(String.format(CONTENT, bookEntity.getName(), entities.getFee().toString()))
+                .recipient(entities.getEmail())
                 .subject(SUBJECT)
                 .build();
-        kafka.sendEmail(message);
     }
 
 }

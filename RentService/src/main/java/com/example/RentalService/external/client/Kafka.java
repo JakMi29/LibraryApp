@@ -5,9 +5,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @FeignClient(name="KAFKA-SERVICE/emailSender")
 public interface Kafka {
     @PostMapping("/send")
-    public void sendEmail(@RequestBody EmailMessage emailMessage);
+    public void sendEmail(@RequestBody List<EmailMessage> emails);
 
 }

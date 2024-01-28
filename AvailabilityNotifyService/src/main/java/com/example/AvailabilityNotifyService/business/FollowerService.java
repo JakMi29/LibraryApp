@@ -31,5 +31,6 @@ public class FollowerService {
 
     public void sendNotifications(Integer bookId) {
         List<FollowersEntity> followers = dao.findAllByBookId(bookId);
+
     }
 }

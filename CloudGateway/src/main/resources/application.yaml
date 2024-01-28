@@ -45,3 +45,12 @@ spring:
               args:
                 name: KAFKA-SERVICE
                 fallbackUri: forward:/kafkaServiceFallback
+        - id: KAFKA-SERVICE
+          uri: lb://AVAILABILITY-NOTIFY-SERVICE
+          predicates:
+            - Path=/follow/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AVAILABILITY-NOTIFY-SERVICE
+                fallbackUri: forward:/kafkaServiceFallback
