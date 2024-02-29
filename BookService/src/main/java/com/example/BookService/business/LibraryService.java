@@ -3,6 +3,7 @@ package com.example.BookService.business;
 import com.example.BookService.business.dao.LibraryBookDAO;
 import com.example.BookService.domain.exception.BookServiceCustomException;
 import com.example.BookService.domain.request.AddBookRequest;
+import com.example.BookService.external.client.AvailabilityNotifyService;
 import com.example.BookService.infrastructure.database.entity.LibraryBookEntity;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LibraryService {
     private final LibraryBookDAO bookDAO;
+private final AvailabilityNotifyService availabilityNotifyService;
     private final LibraryBookPaginationService bookPaginationService;
 
     public void returnBook(Integer id) {
@@ -26,6 +28,10 @@ public class LibraryService {
                         "Book with given id not found",
                         HttpStatus.BAD_REQUEST
                 ));
+        if(book.getQuantity()==0){
+            availabilityNotifyService.sendNotifications(book.getName(),book.getId());
+        }
+
         book.setQuantity(book.getQuantity() + 1);
         bookDAO.save(book);
         log.info("Book Quantity updated Successfully");

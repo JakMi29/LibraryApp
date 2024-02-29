@@ -21,8 +21,10 @@ public class FollowersController {
         service.unFollow(request);
     }
 
-    @PostMapping("/send/{bookId}")
-    public void sendNotifications(@RequestBody Integer bookId) {
-        service.sendNotifications(bookId);
+    @PostMapping("/send")
+    public void sendNotifications(
+            @RequestBody String bookName,
+            @RequestBody Integer bookId) {
+        service.sendNotifications(bookName, bookId);
     }
 }

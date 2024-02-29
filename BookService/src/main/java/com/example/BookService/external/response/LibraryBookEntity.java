@@ -1,4 +1,4 @@
-package com.example.BookService.infrastructure.database.entity;
+package com.example.BookService.external.response;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "library_book")
 public class LibraryBookEntity {
 
-    @Column(name = "category")
-    String category;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,6 +22,8 @@ public class LibraryBookEntity {
     private String name;
     @Column(name = "author")
     private String author;
+    @Column(name="category")
+    String category;
     @Column(name = "quantity")
     private Integer quantity;
     @Column(name = "publication_date")
